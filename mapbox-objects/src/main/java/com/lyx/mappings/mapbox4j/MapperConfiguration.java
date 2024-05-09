@@ -14,12 +14,6 @@ public class MapperConfiguration<I> implements MappingConfiguration<I> {
     }
 
     @Override
-    public MappingConfiguration<I> expireOnWrite(Delay delay) {
-        handle.setExpireOnWriteDelay(delay);
-        return this;
-    }
-
-    @Override
     public MappingConfiguration<I> expireOnAccess(Delay delay) {
         handle.setExpireOnAccessDelay(delay);
         return null;

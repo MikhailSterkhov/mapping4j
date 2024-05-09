@@ -6,13 +6,9 @@ import java.util.function.Predicate;
 
 public interface ElementProperties<I> {
 
-    void setExpireOnWriteDelay(Delay delay);
-
     void setExpireOnAccessDelay(Delay delay);
 
     void setIndexPredication(Predicate<I> predication);
-
-    Delay getExpireOnWriteDelay();
 
     Delay getExpireOnAccessDelay();
 

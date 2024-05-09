@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 public class MapperElementProperties<I> implements ElementProperties<I> {
 
     private final Long insertionTimeAtMillis;
-    private Delay expireOnWriteDelay;
+
     private Delay expireOnAccessDelay;
     private Predicate<I> indexPredication;
 
