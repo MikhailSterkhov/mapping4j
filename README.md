@@ -1,6 +1,6 @@
 <div align="center">
 
-# MAPPING4J
+# MAPPING & MAPBOX
 
 <img src="https://img.shields.io/badge/lang-Java-red?style=flat" />
 <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat" />
