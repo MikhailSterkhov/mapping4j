@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 public class MapperConfiguration<I> implements MappingConfiguration<I> {
 
-    private final ElementProperties<I> handle = new MapperElementProperties<>();
+    private final ElementProperties<I> handle = new MapperElementProperties<>(System.currentTimeMillis());
 
     @Override
     public ElementProperties<I> forElement() {
@@ -27,7 +27,7 @@ public class MapperConfiguration<I> implements MappingConfiguration<I> {
 
     @Override
     public MappingConfiguration<I> predication(Predicate<I> predication) {
-        handle.setPredication(predication);
+        handle.setIndexPredication(predication);
         return null;
     }
 }

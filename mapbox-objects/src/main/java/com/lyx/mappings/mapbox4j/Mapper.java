@@ -25,7 +25,7 @@ public class Mapper<I, V> implements Mapping<I, V> {
     public void insert(I index, Supplier<V> value) {
         synchronized (lock) {
             handle.put(index, new MapperElement<>(index, value,
-                    new MapperElementProperties<>()));
+                    new MapperElementProperties<>(System.currentTimeMillis())));
         }
     }
 
@@ -50,7 +50,7 @@ public class Mapper<I, V> implements Mapping<I, V> {
 
     @Override
     public Stream<MapElement<I, V>> stream() {
-        return handle.values().stream();
+        return handle.values().stream().filter(this::doVerify);
     }
 
     @Override
@@ -60,6 +60,30 @@ public class Mapper<I, V> implements Mapping<I, V> {
 
     @Override
     public Optional<MapElement<I, V>> getElement(I index) {
-        return Optional.ofNullable(handle.get(index));
+        MapElement<I, V> mapElement = handle.get(index);
+        if (!doVerify(mapElement)) {
+            delete(index);
+            return Optional.empty();
+        }
+        return Optional.ofNullable(mapElement);
+    }
+
+    private boolean doVerify(MapElement<I, V> element) {
+        if (element == null) {
+            return true;
+        }
+
+        ElementProperties<I> properties = element.properties();
+
+        long accessTimeout = properties.getExpireOnAccessDelay().withAtMillis(properties.getInsertionTimeAtNanos());
+        if (accessTimeout - System.currentTimeMillis() < 0) {
+            return false;
+        }
+
+        if (properties.getIndexPredication() != null && !properties.getIndexPredication().test(element.index())) {
+            return false;
+        }
+
+        return true;
     }
 }

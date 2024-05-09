@@ -10,13 +10,13 @@ public interface ElementProperties<I> {
 
     void setExpireOnAccessDelay(Delay delay);
 
-    void setPredication(Predicate<I> predication);
+    void setIndexPredication(Predicate<I> predication);
 
     Delay getExpireOnWriteDelay();
 
     Delay getExpireOnAccessDelay();
 
-    Predicate<I> getPredication();
+    Predicate<I> getIndexPredication();
 
     Long getInsertionTimeAtNanos();
 

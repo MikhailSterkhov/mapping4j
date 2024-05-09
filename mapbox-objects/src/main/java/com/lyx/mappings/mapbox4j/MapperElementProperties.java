@@ -2,6 +2,7 @@ package com.lyx.mappings.mapbox4j;
 
 import com.lyx.mappings.mapbox4j.value.Delay;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -11,15 +12,16 @@ import java.util.function.Predicate;
 @Getter
 @Setter
 @ToString
+@RequiredArgsConstructor
 public class MapperElementProperties<I> implements ElementProperties<I> {
 
-    private Long insertionTimeAtNanos;
+    private final Long insertionTimeAtMillis;
     private Delay expireOnWriteDelay;
     private Delay expireOnAccessDelay;
-    private Predicate<I> predication;
+    private Predicate<I> indexPredication;
 
     @Override
-    public Long getInsertionTimeAtMillis() {
-        return TimeUnit.NANOSECONDS.toMillis(insertionTimeAtNanos);
+    public Long getInsertionTimeAtNanos() {
+        return TimeUnit.MICROSECONDS.toNanos(insertionTimeAtMillis);
     }
 }
