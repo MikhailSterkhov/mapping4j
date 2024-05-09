@@ -3,11 +3,7 @@ package com.lyx.mappings.mapbox4j.test;
 import com.lyx.mappings.mapbox4j.Mapbox;
 import com.lyx.mappings.mapbox4j.Mapper;
 import com.lyx.mappings.mapbox4j.ObjectMapper;
-import com.lyx.mappings.mapbox4j.test.objects.carmodel.*;
-import com.lyx.mappings.mapbox4j.test.objects.message.BotMessage;
-import com.lyx.mappings.mapbox4j.test.objects.message.MailMessage;
-import com.lyx.mappings.mapbox4j.test.objects.message.Message;
-import com.lyx.mappings.mapbox4j.test.objects.message.RemoteMessage;
+import com.lyx.mappings.mapbox4j.test.objects.message.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +12,7 @@ public class MapboxWithMessagesTest {
     @Test
     public void test_builderMapper() {
         assertMapper(Mapbox.builder()
-                .insert("itzstonlex", RemoteMessage::new)
+                .insert("itzstonlex", UserMessage::new)
                 .insert("mikhail.sterkhov", MailMessage::new)
                 .insert("github", BotMessage::new)
                 .toMapper(String.class, Message.class));
@@ -26,7 +22,7 @@ public class MapboxWithMessagesTest {
     public void test_justMapper() {
         Mapper<String, Message> mapper = Mapbox.createMapper(String.class, Message.class);
 
-        mapper.insert("itzstonlex", RemoteMessage::new);
+        mapper.insert("itzstonlex", UserMessage::new);
         mapper.insert("mikhail.sterkhov", MailMessage::new);
         mapper.insert("github", BotMessage::new);
 
@@ -37,7 +33,7 @@ public class MapboxWithMessagesTest {
     public void test_objectMapper() {
         ObjectMapper objectMapper = Mapbox.createObjectMapper();
 
-        objectMapper.insert("itzstonlex", RemoteMessage::new);
+        objectMapper.insert("itzstonlex", UserMessage::new);
         objectMapper.insert("mikhail.sterkhov", MailMessage::new);
         objectMapper.insert("github", BotMessage::new);
 
@@ -50,7 +46,7 @@ public class MapboxWithMessagesTest {
         Message messageByItzstonlex = mapper.get("itzstonlex").orElseThrow(() -> new IllegalArgumentException("no sender name"));
         Message messageByGithub = mapper.get("github").orElseThrow(() -> new IllegalArgumentException("no sender name"));
 
-        Assertions.assertEquals(RemoteMessage.class, messageByItzstonlex.getClass());
+        Assertions.assertEquals(UserMessage.class, messageByItzstonlex.getClass());
         Assertions.assertEquals(BotMessage.class, messageByGithub.getClass());
 
         System.out.println(messageByItzstonlex.getClass());
